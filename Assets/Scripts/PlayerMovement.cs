@@ -42,8 +42,6 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetKey (KeyCode.D)) {
 			transform.Translate (Vector3.right * speed * Time.deltaTime,Space.World);
 		}
-
-
 	}
 
 	void movementCheck()//added in ep 2, talk about changes and why
