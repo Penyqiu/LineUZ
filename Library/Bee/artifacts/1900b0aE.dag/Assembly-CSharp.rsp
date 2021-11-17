@@ -340,6 +340,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VSSettingsProvider.ref.dll"
+"Assets/PlayGame.cs"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/CameraFollowPlayer.cs"
 "Assets/Scripts/CameraRotateEffect.cs"
@@ -357,8 +358,6 @@
 "Assets/Scripts/SpriteContainer.cs"
 "Assets/Scripts/ThrowWeapon.cs"
 "Assets/Scripts/WeaponPickup.cs"
-"Assets/Scripts/WeaponWindowDestroy.cs"
-"Assets/Scripts/Window.cs"
 -langversion:8.0
 
 /deterministic
