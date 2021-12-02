@@ -19,10 +19,10 @@ public class CameraRotateEffect : MonoBehaviour {
 
 			zVal += mod;
 
-			if (transform.eulerAngles.z >= 3.0f && transform.eulerAngles.z < 10.0f) {
+			if (transform.eulerAngles.z >= 5.0f && transform.eulerAngles.z < 7.0f) {
 				mod = -0.1f;
 			}
-			else if (transform.eulerAngles.z <357.0f && transform.eulerAngles.z > 350.0f) {
+			else if (transform.eulerAngles.z <355.0f && transform.eulerAngles.z > 353.0f) {
 				mod = 0.1f;
 			}
 

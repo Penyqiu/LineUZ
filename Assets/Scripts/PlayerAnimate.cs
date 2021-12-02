@@ -5,21 +5,27 @@ public class PlayerAnimate : MonoBehaviour {
 	public Sprite[] walking,attacking;
 	int counter = 0;
 	PlayerMovement pm;
-	float timer = 0.05f,legTimer = 0.05f;
+	float timer = 0.05f;
 	public SpriteRenderer torso;
 	SpriteContainer sc;
+	WeaponAttack wa;
 	bool attackingB = false;
 	// Use this for initialization
 	void Start () {
 		pm = this.GetComponent<PlayerMovement> ();
 		sc = GameObject.FindGameObjectWithTag ("GameController").GetComponent<SpriteContainer> ();
 		walking = sc.getPlayerUnarmedWalk ();
+		attacking = sc.getPlayerPunch ();
+
+		wa = this.GetComponent<WeaponAttack> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (attackingB == false) {
 			animateTorso ();
+		} else {
+			animateAttack ();
 		}
 	}
 
@@ -44,11 +50,48 @@ public class PlayerAnimate : MonoBehaviour {
 		} 
 	}
 
+	void animateAttack()
+	{
+		torso.sprite = attacking [counter];
+		Debug.Log ("Attack Counter : " + counter);
+		timer -= Time.deltaTime;
+		if(timer<=0)
+		{
+				if (counter < attacking.Length - 1) {
+					counter++;
+				} else {
+					if (attackingB == true) {
+						attackingB = false; 
+					resetCounter ();
+					}
+					counter = 0;
+				}
+				timer = 0.05f;
+		}
+	}
+
+	public void attack()
+	{
+		attackingB = true;
+	}
 
 	public void resetCounter()
 	{
 		counter = 0;
-		
+		attackCheck ();
+	}
+
+	void attackCheck() //added new 
+	{
+		if(attackingB==false)
+		{
+			torso.sprite = walking [0];
+		}
+	}
+
+	public bool getAttack()
+	{
+		return attackingB;
 	}
 
 
@@ -56,6 +99,7 @@ public class PlayerAnimate : MonoBehaviour {
 	{
 		counter = 0;
 		walking = sc.getPlayerUnarmedWalk ();
+		attacking = sc.getPlayerPunch ();
 		torso.sprite=walking[0];
 	}
 
