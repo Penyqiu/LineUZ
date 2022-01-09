@@ -7,7 +7,7 @@ public class CutsceneDisplay : MonoBehaviour {
 	public Texture2D activeFace;
 	int faceAnimCounter = 0;
 	int cutsceneCounter = 0;
-	float faceAnimateTimer=0.15f;
+	float faceAnimateTimer=0.15f,faceReturn=0.15f;
 	public Texture2D bg;
 	public GUIStyle text;
 
