@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	}
 
-	void movementCheck()
+	void movementCheck()//added in ep 2, talk about changes and why
 	{
 		if (Input.GetKey (KeyCode.D) != true && Input.GetKey (KeyCode.A) != true && Input.GetKey (KeyCode.S) != true && Input.GetKey (KeyCode.W) != true) {
 			moving = false;

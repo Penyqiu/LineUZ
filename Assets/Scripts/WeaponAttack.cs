@@ -51,6 +51,12 @@ public class WeaponAttack : MonoBehaviour {
 		}
 		if (curWeapon == null) {
 
+		} else {
+			if (curWeapon.activeInHierarchy == false) {
+				if (Input.GetMouseButtonDown (1) && changingWeapon == false) {
+					dropWeapon ();
+				}
+			}
 		}
 
 		if(changingWeapon==true)
@@ -63,8 +69,9 @@ public class WeaponAttack : MonoBehaviour {
 		}
 	}
 
-	/*public void setWeapon(GameObject cur, string name, float fireRate,bool gun,bool oneHanded,bool shotgun)
+	public void setWeapon(GameObject cur, string name, float fireRate,bool gun,bool oneHanded,bool shotgun)
 	{
+		//this.GetComponent<AudioController> ().pickupWeapon ();
 		changingWeapon = true;
 
 		pa.setNewTorso (sc.getWeaponWalk(name),sc.getWeapon(name));
@@ -82,7 +89,20 @@ public class WeaponAttack : MonoBehaviour {
 			curWepScr = curWeapon.GetComponent<WeaponPickup> ();//NEW STUFF FOR 16
 
 		}
-	}*/
+	}
+
+	void decideSFX()
+	{
+		if (gun == true) {
+			if (Shotgun == true) {
+				this.GetComponent<AudioController> ().fireShotgun ();
+			} else {
+				this.GetComponent<AudioController> ().fireSmg ();
+			}
+		} else {
+			this.GetComponent<AudioController> ().meleeAttack ();
+		}
+	}
 
 	public void attack()
 	{
@@ -103,6 +123,7 @@ public class WeaponAttack : MonoBehaviour {
 						Instantiate (shotgunBullet, oneHandSpawn.transform.position, this.transform.rotation);
 					}
 					curWeapon.GetComponent<WeaponPickup> ().ammo--;
+					FindObjectOfType<LevelEscapeController> ().shotFired ();
 				} else {
 					if (Shotgun == false) {//new for new weapons
 						Instantiate (bullet, twoHandSpawn.transform.position, this.transform.rotation);
@@ -110,7 +131,9 @@ public class WeaponAttack : MonoBehaviour {
 						Instantiate (shotgunBullet, twoHandSpawn.transform.position, this.transform.rotation);
 					}
 					curWeapon.GetComponent<WeaponPickup> ().ammo--;
+					FindObjectOfType<LevelEscapeController> ().shotFired ();
 				}
+			decideSFX ();
 			timer = timerReset;
 
 			//if (Input.GetMouseButtonUp (0)) {
@@ -131,6 +154,44 @@ public class WeaponAttack : MonoBehaviour {
 			RaycastHit2D ray = Physics2D.Raycast (new Vector2(this.transform.position.x,this.transform.position.y),new Vector2(transform.right.x,transform.right.y),1.5f,layerMask);
 			Debug.DrawRay (new Vector2(this.transform.position.x,this.transform.position.y),new Vector2(transform.right.x,transform.right.y),Color.green);
 
+			if (ray.collider == null) {
+
+			} else {
+				if (curWeapon == null && ray.collider.gameObject.tag == "Enemy") {
+
+					if (ray.collider.isTrigger == true && ray.collider.gameObject.tag == "Enemy") {//new for execute
+						ray.collider.gameObject.GetComponent<EnemyAttacked> ().execute ();
+						decideSFX ();
+					} else {
+						EnemyAttacked ea = ray.collider.gameObject.GetComponent<EnemyAttacked> ();
+						ea.knockDownEnemy ();
+						decideSFX ();
+					}
+				} else if (curWeapon == null && ray.collider.gameObject.tag == "Dog") {////
+					ray.collider.gameObject.GetComponent<DogHealth> ().killDog ();//
+				}//
+				else if (curWeapon == null && ray.collider.gameObject.tag == "Wall" && ray.collider.gameObject.GetComponent<Window> () != null) {
+					ray.collider.gameObject.GetComponent<Window> ().breakWindow ();
+				} else if (ray.collider != null) {
+					Debug.Log (ray.collider.gameObject.tag);
+					if (ray.collider.gameObject.tag == "Enemy") {
+						
+						if (ray.collider.isTrigger == true && ray.collider.gameObject.tag == "Enemy") {
+							ray.collider.gameObject.GetComponent<EnemyAttacked> ().execute ();
+						} else {
+							EnemyAttacked ea = ray.collider.gameObject.GetComponent<EnemyAttacked> ();
+							ea.killMelee ();
+							decideSFX ();
+						}
+					} else if (ray.collider.gameObject.tag == "Dog") {
+						ray.collider.gameObject.GetComponent<DogHealth> ().killDog ();
+					}
+
+					if (ray.collider.gameObject.tag == "Wall" && ray.collider.gameObject.GetComponent<Window> () != null) {
+						ray.collider.gameObject.GetComponent<Window> ().breakWindow ();
+					}
+				}
+			}
 			timer = timerReset;
 		}
 
@@ -140,6 +201,28 @@ public class WeaponAttack : MonoBehaviour {
 	public GameObject getCur()
 	{
 		return curWeapon;
+	}
+
+	public void dropWeapon()
+	{
+		if (curWeapon == null) {
+
+		} else {
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
+			curWeapon.AddComponent<ThrowWeapon> ();
+			Vector3 dir;
+			dir.x = mousePos.x - this.transform.position.x;
+			dir.y = mousePos.y - this.transform.position.y;
+			dir.z = 0;
+			curWeapon.GetComponent<Rigidbody2D> ().isKinematic = false;
+			curWeapon.GetComponent<ThrowWeapon> ().setDirection (dir);
+			curWeapon.transform.position = oneHandSpawn.transform.position;
+			curWeapon.transform.eulerAngles = this.transform.eulerAngles;
+			curWeapon.SetActive (true);
+			setWeapon (null, "", 0.5f, false,false,false);
+			pa.resetSprites ();
+		}
+
 	}
 
 	void OnGUI() //NEW STUFF FOR 16
