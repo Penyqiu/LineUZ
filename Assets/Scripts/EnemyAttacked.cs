@@ -13,7 +13,7 @@ public class EnemyAttacked : MonoBehaviour {
 	void Start () {
 		sr = this.GetComponent<SpriteRenderer> ();
 		player = GameObject.FindGameObjectWithTag ("Player");
-		sc = GameObject.FindGameObjectWithTag ("GameController").GetComponent<ScoreController> ();
+		//sc = GameObject.FindGameObjectWithTag ("GameController").GetComponent<ScoreController> ();
 	}
 	
 
@@ -33,7 +33,7 @@ public class EnemyAttacked : MonoBehaviour {
 		
 		this.GetComponent<EnemyWeaponController> ().dropWeapon ();
 		if (this.GetComponent<EnemyWeaponController> ().enabled==true) {
-			sc.AddScore (500,this.transform.position);
+			//sc.AddScore (500,this.transform.position);
 			this.GetComponent<EnemyWeaponController> ().enabled=false;
 		}
 
@@ -73,9 +73,6 @@ public class EnemyAttacked : MonoBehaviour {
 		knockDownTimer = 9999;
 		EnemyKnockedDown = false;
 
-
-		sc.AddScore (500,this.transform.position);
-		sc.increaseMultiplier ();
 		this.GetComponent<EnemyWeaponController> ().dropWeapon ();
 		this.GetComponent<EnemyWeaponController> ().enabled=false;
 		sr.sprite = bulletWound;
@@ -101,9 +98,6 @@ public class EnemyAttacked : MonoBehaviour {
 		knockDownTimer = 9999;
 		EnemyKnockedDown = false;
 
-
-		sc.AddScore (1000,this.transform.position);
-		sc.increaseMultiplier ();
 		this.GetComponent<EnemyWeaponController> ().dropWeapon ();
 		this.GetComponent<EnemyWeaponController> ().enabled=false;
 		sr.sprite = stabbed;
@@ -134,8 +128,8 @@ public class EnemyAttacked : MonoBehaviour {
 		else{
 			this.GetComponent<AIPathFind> ().enabled = false;
 		}
-		sc.AddScore (500,this.transform.position);
-		sc.increaseMultiplier ();
+		//sc.AddScore (500,this.transform.position);
+		//sc.increaseMultiplier ();
 		this.GetComponent<EnemyWeaponController> ().dropWeapon ();
 		this.GetComponent<EnemyWeaponController> ().enabled=false;
 		sr.sprite = stabbed;

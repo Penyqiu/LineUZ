@@ -5,7 +5,7 @@ public class WeaponPickup : MonoBehaviour {
 	public string name;
 	public float fireRate;
 	WeaponAttack wa;
-	public bool gun,oneHanded,shotugn;
+	public bool gun,oneHanded,shotgun;
 	public int ammo;//NEW STUFF FOR 16
 	//public AudioClip sfx;
 
@@ -27,7 +27,7 @@ public class WeaponPickup : MonoBehaviour {
 			if (wa.getCur () != null) {
 				wa.dropWeapon ();
 			}
-			wa.setWeapon (this.gameObject,name,fireRate,gun,oneHanded,shotugn);//added one handed
+			wa.setWeapon (this.gameObject,name,fireRate,gun,oneHanded,shotgun);//added one handed
 			//Destroy (this.gameObject);
 			this.gameObject.SetActive (false);
 		}
@@ -36,7 +36,7 @@ public class WeaponPickup : MonoBehaviour {
 			Debug.Log("Enemy picked up: " + name);
 
 			EnemyWeaponController ewc = coll.gameObject.GetComponent<EnemyWeaponController> ();
-			ewc.setWeapon (this.gameObject,name,fireRate,gun,oneHanded,shotugn);//added one handed
+			ewc.setWeapon (this.gameObject,name,fireRate,gun,oneHanded,shotgun);//added one handed
 			//Destroy (this.gameObject);
 			this.gameObject.SetActive (false);
 		}

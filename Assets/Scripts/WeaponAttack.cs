@@ -71,7 +71,7 @@ public class WeaponAttack : MonoBehaviour {
 
 	public void setWeapon(GameObject cur, string name, float fireRate,bool gun,bool oneHanded,bool shotgun)
 	{
-		//this.GetComponent<AudioController> ().pickupWeapon ();
+		this.GetComponent<AudioController> ().pickupWeapon ();
 		changingWeapon = true;
 
 		pa.setNewTorso (sc.getWeaponWalk(name),sc.getWeapon(name));
@@ -123,7 +123,7 @@ public class WeaponAttack : MonoBehaviour {
 						Instantiate (shotgunBullet, oneHandSpawn.transform.position, this.transform.rotation);
 					}
 					curWeapon.GetComponent<WeaponPickup> ().ammo--;
-					FindObjectOfType<LevelEscapeController> ().shotFired ();
+					//FindObjectOfType<LevelEscapeController> ().shotFired ();
 				} else {
 					if (Shotgun == false) {//new for new weapons
 						Instantiate (bullet, twoHandSpawn.transform.position, this.transform.rotation);
